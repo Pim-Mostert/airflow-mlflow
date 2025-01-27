@@ -1,0 +1,5 @@
+repos:
+  - repo: https://github.com/arashabzd/pre-commit-nbconvert
+    rev: "0.0.4"
+    hooks:
+      - id: clear-notebook-outputs
