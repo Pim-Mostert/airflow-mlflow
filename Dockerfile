@@ -1,5 +1,5 @@
 FROM apache/airflow
 
-COPY requirements.txt .
+COPY requirements-dockerfile.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-dockerfile.txt

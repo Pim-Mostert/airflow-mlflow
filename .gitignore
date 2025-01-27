@@ -166,3 +166,4 @@ cython_debug/
 # Airflow-related
 database
 logs
+output
