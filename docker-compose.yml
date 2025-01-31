@@ -1,15 +1,34 @@
 version: '3'
 
 services:
-  standalone:
-    build: .
-    environment:
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
+  # airflow:
+  #   build: .
+  #   environment:
+  #     - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
+  #   volumes:
+  #     - ./dags:/opt/airflow/dags
+  #     - ./logs:/opt/airflow/logs
+  #     - ./database:/opt/airflow/database
+  #     - ./output:/tmp/
+  #   ports:
+  #     - 8080:8080
+  #   command: standalone
+  
+  mlflow:
+    image: ghcr.io/mlflow/mlflow
+    container_name: mlflow
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./logs:/opt/airflow/logs
-      - ./database:/opt/airflow/database
-      - ./output:/tmp/
+      - ./mlflow/database:/mlflow/database
+      - ./mlflow/artifacts:/mlflow/artifacts
     ports:
-      - "8080:8080"
-    command: standalone
+      - 9000:5000
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow/database/mlflow.db
+      --artifacts-destination /mlflow/artifacts
+      --serve-artifacts
+      --host 0.0.0.0
+
+  
+
+
