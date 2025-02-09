@@ -1,4 +1,4 @@
-FROM apache/airflow
+FROM apache/airflow:2.10.4-python3.12
 
 COPY requirements-dockerfile.txt .
 

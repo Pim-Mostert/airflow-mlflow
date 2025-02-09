@@ -16,7 +16,7 @@ services:
     command: standalone
   
   mlflow:
-    image: ghcr.io/mlflow/mlflow
+    image: ghcr.io/mlflow/mlflow:v2.20.1
     container_name: mlflow
     volumes:
       - ./mlflow/database:/mlflow/database
