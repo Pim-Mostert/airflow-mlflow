@@ -164,10 +164,7 @@ cython_debug/
 .DS_Store
 
 # Airflow-related
-!airflow/
-
-airflow/*
-!airflow/dags
+airflow
 
 # MLflow-related
 mlflow
