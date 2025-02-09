@@ -164,9 +164,8 @@ cython_debug/
 .DS_Store
 
 # Airflow-related
-database
-logs
-output
+airflow
+!airflow/dags
 
 # MLflow-related
 mlflow
