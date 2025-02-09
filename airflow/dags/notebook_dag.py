@@ -19,17 +19,16 @@ def execute_notebook_and_convert(
     mlflow.set_experiment(mlflow_experiment_name)
 
     with mlflow.start_run() as run:
+        os.environ["MLFLOW_RUN_ID"] = run.info.run_id
+
         # Read the input notebook
         INPUT_FILE = os.path.join(os.path.dirname(INPUT_DIR), FILE_NAME)
 
-        with tempfile.NamedTemporaryFile(suffix=".ipynb") as fp:
-            executed_notebook = pm.execute_notebook(
-                INPUT_FILE,
-                fp.name,
-            )
-
-            # Read notebook
-            # executed_notebook = nbformat.read(fp, as_version=4)
+        executed_notebook = pm.execute_notebook(
+            INPUT_FILE,
+            output_path=None,
+            kernel_name="python3",
+        )
 
         # Convert notebook to HTML
         html_exporter = HTMLExporter()
