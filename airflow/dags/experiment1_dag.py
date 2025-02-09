@@ -4,21 +4,22 @@ from airflow.decorators import task, dag
 from nbconvert import HTMLExporter
 import papermill as pm
 import mlflow
+from pathlib import Path
 
 
-@task(task_id="run_and_convert")
-def execute_notebook_and_convert(
-    mlflow_experiment_name,
-    notebook_file,
+@task(task_id="execute_and_upload")
+def execute_and_upload(
+    experiment_name,
+    notebook_path: Path,
 ):
-    mlflow.set_experiment(mlflow_experiment_name)
+    mlflow.set_experiment(experiment_name)
 
     with mlflow.start_run() as run:
         os.environ["MLFLOW_RUN_ID"] = run.info.run_id
 
         # Execute the notebook
         executed_notebook = pm.execute_notebook(
-            notebook_file,
+            notebook_path,
             output_path=None,
             kernel_name="python3",
         )
@@ -29,7 +30,11 @@ def execute_notebook_and_convert(
 
         # Upload the HTML to MLflow
         with tempfile.TemporaryDirectory() as tempdir:
-            with open(os.path.join(tempdir, "output.html"), "w") as f:
+            output_path = (
+                Path(tempdir) / Path(notebook_path).stem
+            ).with_suffix(".html")
+
+            with open(output_path.as_posix(), "w") as f:
                 f.write(html_body)
 
                 mlflow.log_artifact(f.name)
@@ -37,11 +42,9 @@ def execute_notebook_and_convert(
 
 @dag(dag_id="experiment1", description="Experiment 1")
 def experiment1_dag():
-    execute_notebook_and_convert(
-        mlflow_experiment_name="Experiment 1",
-        notebook_file=os.path.join(
-            os.path.dirname(__file__), "experiment1.ipynb"
-        ),
+    execute_and_upload(
+        experiment_name="Experiment 1",
+        notebook_path=Path(__file__).parents[0] / "experiment1.ipynb",
     )
 
 
