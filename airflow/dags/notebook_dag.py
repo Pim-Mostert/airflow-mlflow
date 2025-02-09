@@ -1,8 +1,7 @@
 import os
 import tempfile
-from airflow import DAG, task
+from airflow import DAG
 from airflow.decorators import task
-import nbformat
 from nbconvert import HTMLExporter
 import papermill as pm
 import mlflow
