@@ -8,9 +8,9 @@ services:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
-      - ./airflow/database:/opt/airflow/database
+      - ${DAGS_LOCATION}:/opt/airflow/dags
+      - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
+      - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
     ports:
       - 8080:8080
     command: standalone
@@ -19,8 +19,8 @@ services:
     image: ghcr.io/mlflow/mlflow:v2.20.1
     container_name: mlflow
     volumes:
-      - ./mlflow/database:/mlflow/database
-      - ./mlflow/artifacts:/mlflow/artifacts
+      - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
+      - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
     ports:
       - 9000:9000
     command: >
