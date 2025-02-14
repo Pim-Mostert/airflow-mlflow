@@ -27,6 +27,7 @@
 
 # Todo
 
+- [x] Install private `bayesian-network` package in Airflow container
 - [ ] Sync experiments from git
-- [ ] Custom runner images with `bayesian-network` installed
+- [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
