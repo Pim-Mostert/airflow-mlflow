@@ -1,6 +1,6 @@
 # Getting started
 
-1. Configure variables in `.env`:
+1. Copy `.env.template` to `.env` and configure its variables:
    - **DAGS_LOCATION**: Location of the DAGs for Airflow to parse.
    - **STORAGE_LOCATION**: Location for service's persistent storage (e.g. SQlite, artifacts, etc.).
 2. Run `chmod +x up.sh` and `chmod +x down.sh`
