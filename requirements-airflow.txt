@@ -1,6 +1,4 @@
-# PyPi
+-r requirements-common.txt
+
 apache-airflow-providers-papermill==3.9.0
 nbconvert==7.16.6
-mlflow==2.20.1
-
-# Private repository

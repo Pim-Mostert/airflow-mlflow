@@ -1,0 +1,5 @@
+# PyPi
+mlflow==2.20.1
+
+# Private Azure Artifacts
+bayesian-network

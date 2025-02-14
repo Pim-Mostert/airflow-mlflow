@@ -1,2 +1,4 @@
--r requirements-dockerfile.txt
+-r requirements-common.txt
+
 pre-commit
+
