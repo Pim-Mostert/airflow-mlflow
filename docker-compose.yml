@@ -2,7 +2,10 @@ version: '3'
 
 services:
   airflow:
-    build: .
+    build:  
+      context: .
+      args:
+        - AZURE_ARTIFACTS_TOKEN=${AZURE_ARTIFACTS_TOKEN}
     container_name: airflow
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
