@@ -1,4 +1,4 @@
 -r requirements-common.txt
 
 pre-commit
-
+ipykernel
