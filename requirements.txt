@@ -1,0 +1,13 @@
+# Airflow
+apache-airflow-providers-papermill==3.9.0
+jupytext==1.16.7
+nbclient==0.10.2
+nbconvert==7.16.6
+
+# Experiments
+mlflow==2.20.1
+torchvision==0.20.1
+matplotlib==3.10.0
+
+# Private Azure Artifacts
+bayesian-network

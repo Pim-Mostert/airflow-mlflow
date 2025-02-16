@@ -13,8 +13,8 @@ ENV PIP_EXTRA_INDEX_URL=https://${AZURE_ARTIFACTS_TOKEN}@pkgs.dev.azure.com/most
 RUN python -m venv /opt/airflow/venv
 ENV PATH="/opt/airflow/venv/bin:$PATH"
 
-COPY requirements-common.txt requirements-airflow.txt ./
-RUN pip install -r requirements-airflow.txt
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
 ### runner
 FROM base
@@ -23,4 +23,3 @@ FROM base
 COPY --from=builder /opt/airflow/venv /opt/airflow/venv
 ENV PATH="/opt/airflow/venv/bin:$PATH"
 
-# COPY --from=builder /home/airflow/.local/lib/python3.12/site-packages /home/airflow/.local/lib/python3.12/site-packages

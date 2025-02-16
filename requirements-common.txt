@@ -1,6 +1,0 @@
-# PyPi
-mlflow==2.20.1
-torchvision==0.20.1
-
-# Private Azure Artifacts
-bayesian-network
