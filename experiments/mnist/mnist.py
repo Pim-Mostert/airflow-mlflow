@@ -1,16 +1,27 @@
 # %%
 
+import matplotlib.pyplot as plt
+import mlflow
 import torch
-from torch.nn.functional import one_hot
-from bayesian_network.common.torch_settings import TorchSettings
 import torchvision
-from torchvision.transforms import transforms
 from bayesian_network.bayesian_network import BayesianNetwork, Node
+from bayesian_network.common.torch_settings import TorchSettings
 from bayesian_network.inference_machines.torch_sum_product_algorithm_inference_machine import (
     TorchSumProductAlgorithmInferenceMachine,
 )
 from bayesian_network.interfaces import IInferenceMachine
 from bayesian_network.optimizers.em_optimizer import EmOptimizer
+from torch.nn.functional import one_hot
+from torchvision.transforms import transforms
+
+# %% tags=["parameters"]
+
+device = "cpu"
+selected_num_observations = 1000
+num_iterations = 10
+gamma = 0.00001
+
+torch_settings = TorchSettings(torch.device(device), torch.float64)
 
 # %%
 
@@ -48,7 +59,7 @@ def preprocess(
 # %%
 
 
-def fit(torch_settings, evidence):
+def fit(torch_settings, num_iterations, evidence):
     num_observations = evidence[0].shape[0]
     height = 28
     width = 28
@@ -87,7 +98,6 @@ def fit(torch_settings, evidence):
     network = BayesianNetwork(nodes, parents)
 
     # Fit network
-    num_iterations = 2
     num_sp_iterations = 3
 
     def inference_machine_factory(
@@ -104,8 +114,12 @@ def fit(torch_settings, evidence):
 
     def callback(ll, iteration, duration):
         print(
-            f"Finished iteration {iteration}/{num_iterations} - ll: {ll} - it took: {duration} s"
+            f"Finished iteration {iteration}/{num_iterations}"
+            f" - ll: {ll} - it took: {duration} s"
         )
+
+        mlflow.log_metric("iteration_duration", duration, iteration)
+        mlflow.log_metric("log_likelihood", ll, iteration)
 
     em_optimizer = EmOptimizer(network, inference_machine_factory)
     em_optimizer.optimize(evidence, num_iterations, callback)
@@ -115,16 +129,11 @@ def fit(torch_settings, evidence):
 
 # %%
 
-torch_settings = TorchSettings(torch.device("cpu"), torch.float64)
-selected_num_observations = 100
-gamma = 0.00001
 
 evidence = preprocess(torch_settings, gamma, selected_num_observations)
-network = fit(torch_settings, evidence)
+network = fit(torch_settings, num_iterations, evidence)
 
 # %%
-
-import matplotlib.pyplot as plt
 
 Ys = network.nodes[1:]
 w = torch.stack([y.cpt.cpu() for y in Ys])
