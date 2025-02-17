@@ -53,6 +53,8 @@ def execute_and_upload(
 
         def on_cell_executed(cell, cell_index, execute_reply=None):
             print(f"--- Executed cell #{cell_index}")
+            print(f"'execute_reply': {execute_reply}")
+
             for output in cell.get("outputs", []):
                 print(output.get("text", ""), end="")
 

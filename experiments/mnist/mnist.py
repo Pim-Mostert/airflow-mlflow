@@ -1,6 +1,7 @@
 # %%
 
 import matplotlib.pyplot as plt
+import mlflow
 import torch
 import torchvision
 from bayesian_network.bayesian_network import BayesianNetwork, Node
@@ -116,6 +117,9 @@ def fit(torch_settings, num_iterations, evidence):
             f"Finished iteration {iteration}/{num_iterations}"
             f" - ll: {ll} - it took: {duration} s"
         )
+
+        mlflow.log_metric("iteration_duration", duration, iteration)
+        mlflow.log_metric("log_likelihood", ll, iteration)
 
     em_optimizer = EmOptimizer(network, inference_machine_factory)
     em_optimizer.optimize(evidence, num_iterations, callback)

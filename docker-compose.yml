@@ -17,6 +17,8 @@ services:
     ports:
       - 8080:8080
     command: standalone
+    mem_limit: 6gb  
+    cpu_count: 6
   
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.20.1
@@ -33,7 +35,4 @@ services:
       --serve-artifacts
       --port 9000
       --host 0.0.0.0
-
-  
-
-
+      
