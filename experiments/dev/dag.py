@@ -9,7 +9,15 @@ dag = create_experiment_dag(
     experiment_id,
     notebook_path,
     experiment_params={
-        "name": Param("Pim", type="string"),
-        "age": Param(35, type="integer"),
+        "name": Param(
+            default="Pim",
+            type="string",
+            description="Your name.",
+        ),
+        "age": Param(
+            default=35,
+            type="integer",
+            description="Your age.",
+        ),
     },
 )

@@ -31,7 +31,7 @@
 - [x] Use normal Python file (and interactive in VS) instead of .ipynb
 - [x] Handle Exceptions in notebooks
 - [x] Parameterize runs
-- [ ] Custom run names
+- [x] Custom run names
 - [ ] Sync experiments from git
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
