@@ -11,6 +11,7 @@ notebook_path = Path(__file__).parents[0] / f"{experiment_id}.py"
 @airflow.decorators.dag(
     dag_id=experiment_id,
     params={
+        "run_name": Param(None, type=["null", "string"]),
         "device": Param("cpu", type="string"),
         "selected_num_observations": Param(1000, type="integer"),
         "num_iterations": Param(10, type="integer"),
