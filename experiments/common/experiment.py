@@ -1,5 +1,6 @@
 import os
 import tempfile
+from typing import Dict
 from airflow.decorators import task
 
 
@@ -14,6 +15,8 @@ from nbparameterise import (
     replace_definitions,
     parameter_values,
 )
+from airflow import DAG
+from airflow.models.param import Param
 
 
 @task(task_id="execute_and_upload")
@@ -93,3 +96,30 @@ def execute_and_upload(
                     f.write(html_body)
 
                     mlflow.log_artifact(f.name)
+
+
+def create_experiment_dag(
+    experiment_id: str,
+    notebook_path: Path,
+    experiment_params: Dict[str, Param],
+) -> DAG:
+    params = {
+        "run_name": Param(None, type=["null", "string"]),
+    }
+
+    # Add parameters if not exist in default parameters
+    params.update(
+        {k: v for k, v in experiment_params.items() if k not in params}
+    )
+
+    # Create and return the DAG object
+    with DAG(
+        dag_id=experiment_id,
+        params=params,
+    ) as dag:
+        execute_and_upload(
+            experiment_id=experiment_id,
+            notebook_path=notebook_path,
+        )
+
+    return dag
