@@ -1,5 +1,4 @@
 # Airflow
-apache-airflow-providers-papermill==3.9.0
 jupytext==1.16.7
 nbclient==0.10.2
 nbconvert==7.16.6

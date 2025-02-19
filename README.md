@@ -32,6 +32,9 @@
 - [x] Handle Exceptions in notebooks
 - [x] Parameterize runs
 - [x] Custom run names
-- [ ] Sync experiments from git
+- [x] Sync experiments from git
+- [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
+- [ ] Remove Airflow login
+- [ ] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
