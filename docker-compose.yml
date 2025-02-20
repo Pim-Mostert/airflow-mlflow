@@ -10,9 +10,13 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags/airflow/experiments
+      # - AIRFLOW__CORE__DAGS_FOLDER=/dags/airflow/experiments
+      - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+      - AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC=Admin
     volumes:
-      - dags:/dags
+      - ./webserver_config.py:/opt/airflow/webserver_config.py
+      # - dags:/dags
+      - ./experiments:/opt/airflow/dags
       # - ./experiments/dev:/dags/airflow/experiments/_local/dev # Directly mount local folder for easy testing
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
       - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
