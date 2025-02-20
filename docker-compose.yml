@@ -10,10 +10,10 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags-repo/airflow/experiments
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/airflow/experiments
     volumes:
-      - dags-repo:/dags-repo      
-      - ./experiments/dev:/dags-repo/airflow/experiments/_local/dev # Directly mount local folder for easy testing
+      - dags:/dags
+      # - ./experiments/dev:/dags/airflow/experiments/_local/dev # Directly mount local folder for easy testing
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
       - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
     ports:
@@ -29,14 +29,14 @@ services:
     container_name: git-sync
     user: root
     environment:
-      - GIT_SYNC_REPO=https://github.com/Pim-Mostert/airflow-mlflow.git
+      - GITSYNC_REPO=https://github.com/Pim-Mostert/airflow-mlflow.git
       - GIT_SYNC_BRANCH=main
       - GIT_SYNC_WAIT=60  # Sync interval in seconds
-      - GIT_SYNC_DEPTH=1  # Shallow clone for performance
-      - GIT_SYNC_ROOT=/dags-repo
-      - GIT_SYNC_DEST=/dags-repo/airflow
+      - GITSYNC_DEPTH=1  # Shallow clone for performance
+      - GITSYNC_ROOT=/dags
+      - GIT_SYNC_DEST=/dags/airflow
     volumes:
-      - dags-repo:/dags-repo
+      - dags:/dags
         
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.20.1
@@ -55,5 +55,6 @@ services:
       --host 0.0.0.0
       
 volumes:
-  dags-repo:
+  dags:
+    name: dags
     

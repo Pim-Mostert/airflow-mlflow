@@ -35,6 +35,8 @@
 - [x] Sync experiments from git
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
 - [ ] Remove Airflow login
+  - See: https://airflow.apache.org/docs/apache-airflow-providers-fab/stable/auth-manager/webserver-authentication.html
 - [ ] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
+- [ ] Do not use SequentialExecutor

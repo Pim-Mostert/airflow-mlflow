@@ -14,7 +14,8 @@ RUN python -m venv /opt/airflow/venv
 ENV PATH="/opt/airflow/venv/bin:$PATH"
 
 COPY requirements.txt ./
-RUN pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt
 
 ### runner
 FROM base
