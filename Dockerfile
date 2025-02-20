@@ -20,6 +20,7 @@ RUN pip install -r requirements.txt
 FROM base
 
 # Copy and activate virtualenv
-COPY --from=builder /home/airflow/.local/lib/python3.12/site-packages /home/airflow/.local/lib/python3.12/site-packages
+COPY --from=builder /home/airflow/.local /home/airflow/.local
+# COPY --from=builder /home/airflow/.local/lib/python3.12/site-packages /home/airflow/.local/lib/python3.12/site-packages
 # ENV PATH="/opt/airflow/venv/bin:$PATH"
 
