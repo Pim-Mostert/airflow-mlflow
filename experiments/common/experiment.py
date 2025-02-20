@@ -32,7 +32,12 @@ def execute_and_upload(
 
     run_name = params["run_name"]
     if not run_name:
-        print("No 'run_name' specified. MLflow will autogenerate one.")
+        run_name = kwargs["run_id"]
+        print(
+            "No 'run_name' specified."
+            " Will use Airflow's DAG run ID for MLflow's run name:"
+            f" {run_name}."
+        )
 
     with mlflow.start_run(run_name=run_name) as run:
         # Set environment variable to setup run within notebook
