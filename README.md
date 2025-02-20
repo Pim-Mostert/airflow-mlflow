@@ -29,6 +29,8 @@
 - [x] Custom run names
 - [x] Sync experiments from git
 - [x] Remove Airflow login
+- [ ] WARN: SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "AZURE_ARTIFACTS_TOKEN") (line 8) 
+  - See: https://docs.docker.com/compose/how-tos/use-secrets/#examples
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
 - [ ] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
