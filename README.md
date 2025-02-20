@@ -14,16 +14,11 @@
 
 ## Setup Airflow and MLflow
 
-1. Copy `.env.template` to `.env` and configure its variables:
-   - **DAGS_LOCATION**: Location of the DAGs for Airflow to parse.
-   - **STORAGE_LOCATION**: Location for service's persistent storage (e.g. SQlite, artifacts, etc.).
+1. Copy `.env.template` to `.env` and configure its variables
 2. Run `chmod +x up.sh` and `chmod +x down.sh`
 3. Run `./up.sh`
    - Airflow is now available at `http://localhost:8080`
    - MLflow is now available at `http://localhost:9000`
-4. Run `docker exec -it airflow bash`. Within the container, run `cat standalone_admin_password.txt` to get the default admin password.
-5. Go to Airflow at `http://localhost:8080`, login as `admin` and the default password. Change your password under "Your Profile".
-6. Profit.
 
 # Todo
 
@@ -33,9 +28,8 @@
 - [x] Parameterize runs
 - [x] Custom run names
 - [x] Sync experiments from git
+- [x] Remove Airflow login
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
-- [ ] Remove Airflow login
-  - See: https://airflow.apache.org/docs/apache-airflow-providers-fab/stable/auth-manager/webserver-authentication.html
 - [ ] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
