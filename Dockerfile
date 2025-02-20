@@ -9,18 +9,13 @@ ARG AZURE_ARTIFACTS_TOKEN
 
 ENV PIP_EXTRA_INDEX_URL=https://${AZURE_ARTIFACTS_TOKEN}@pkgs.dev.azure.com/mostertpim/BayesianNetwork/_packaging/BayesianNetwork/pypi/simple/
 
-# # Create and activate virtualenv
-# RUN python -m venv /opt/airflow/venv
-# ENV PATH="/opt/airflow/venv/bin:$PATH"
-
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
+
 
 ### runner
 FROM base
 
-# Copy and activate virtualenv
+# Copy Python environment from builder
 COPY --from=builder /home/airflow/.local /home/airflow/.local
-# COPY --from=builder /home/airflow/.local/lib/python3.12/site-packages /home/airflow/.local/lib/python3.12/site-packages
-# ENV PATH="/opt/airflow/venv/bin:$PATH"
 
