@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dags_common"
+version = "0.0.1"
+description = "Common code for running experiments as Airflow DAGs"
+authors = [{ name = "Pim Mostert" }]
+readme = "README.md"
+requires-python = ">=3.12"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools]
+packages = ["src"]
+package-dir = {"" = "."}
