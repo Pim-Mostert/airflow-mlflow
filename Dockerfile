@@ -9,8 +9,12 @@ ARG AZURE_ARTIFACTS_TOKEN
 
 ENV PIP_EXTRA_INDEX_URL=https://${AZURE_ARTIFACTS_TOKEN}@pkgs.dev.azure.com/mostertpim/BayesianNetwork/_packaging/BayesianNetwork/pypi/simple/
 
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
+WORKDIR /pip
+
+ADD --chown=airflow:airflow packages packages
+COPY ./requirements.txt .
+
+RUN pip install -r ./requirements.txt
 
 
 ### runner
