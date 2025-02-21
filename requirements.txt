@@ -1,12 +1,4 @@
-# Airflow
-jupytext==1.16.7
-nbclient==0.10.2
-ipykernel==6.29.5  # Required by nbclient
-nbconvert==7.16.6
-nbparameterise==0.6.1
-
-# Experiments
-mlflow==2.20.1
+./packages
 torchvision==0.20.1
 matplotlib==3.10.0
 
