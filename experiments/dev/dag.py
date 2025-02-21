@@ -1,5 +1,6 @@
 from pathlib import Path
-from common.experiment import create_experiment_dag
+
+from dags_common import create_experiment_dag
 from airflow.models.param import Param
 
 experiment_id = Path(__file__).parents[0].stem
