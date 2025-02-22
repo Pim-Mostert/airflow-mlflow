@@ -14,12 +14,13 @@ services:
       - ./webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
       - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
-      - type: volume
-        source: dags
-        target: /dags
-        # volume:
-        #   nocopy: true
-        #   subpath: airflow/experiments
+      - ./dags:/dags
+      # - type: volume
+      #   source: dags
+      #   target: /dags
+      #   volume:
+      #     nocopy: true
+      #     subpath: airflow/experiments
     ports:
       - 8080:8080
     command: standalone
@@ -38,9 +39,9 @@ services:
       - GITSYNC_WAIT=60  # Sync interval in seconds
       - GITSYNC_DEPTH=1  # Shallow clone for performance
       - GITSYNC_ROOT=/dags
-      - GITSYNC_DEST=/dags/airflow
+      - GITSYNC_DEST=airflow
     volumes:
-      - dags:/dags
+      - ./dags:/dags
         
   # mlflow:
   #   image: ghcr.io/mlflow/mlflow:v2.20.1
@@ -58,7 +59,3 @@ services:
   #     --port 9000
   #     --host 0.0.0.0
       
-volumes:
-  dags:
-    name: dags
-    
