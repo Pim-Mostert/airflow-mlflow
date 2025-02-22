@@ -11,9 +11,14 @@ ENV PIP_EXTRA_INDEX_URL=https://${AZURE_ARTIFACTS_TOKEN}@pkgs.dev.azure.com/most
 
 WORKDIR /pip
 
+# Copy local packages
 ADD --chown=airflow:airflow packages packages
-COPY ./requirements.txt .
 
+# Check that the correct version of Airflow is installed
+RUN pip install --no-deps --no-index -r ./packages/requirements-airflow.txt
+
+# Install dependencies
+COPY requirements.txt .
 RUN pip install -r ./requirements.txt
 
 

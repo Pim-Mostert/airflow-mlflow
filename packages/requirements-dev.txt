@@ -1,3 +1,4 @@
 -r requirements.txt
+-r requirements-airflow.txt
 
 build==1.2.2
