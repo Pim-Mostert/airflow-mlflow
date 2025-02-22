@@ -8,7 +8,4 @@ dynamic = ["dependencies", "version"]
 
 [tool.setuptools.dynamic]
 version = {attr = "dags_common.__version__"}
-dependencies = {file = ["requirements.txt"]}
-
-[tool.distutils.bdist_wheel]
-universal = false
+dependencies = {file = ["requirements.txt", "requirements-airflow.txt"]}
