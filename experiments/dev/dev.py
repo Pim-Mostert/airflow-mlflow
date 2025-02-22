@@ -11,6 +11,8 @@ age = 21
 
 # %%
 
+print("testing this thing")
+
 print(f"Name: {name} - end")
 print(f"Age: {age} - end")
 
