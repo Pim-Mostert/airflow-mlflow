@@ -35,11 +35,11 @@ services:
     user: root
     environment:
       - GITSYNC_REPO=https://github.com/Pim-Mostert/airflow-mlflow.git
-      - GITSYNC_BRANCH=main
-      - GITSYNC_WAIT=60  # Sync interval in seconds
+      - GIT_SYNC_BRANCH=main
+      - GIT_SYNC_WAIT=60  # Sync interval in seconds
       - GITSYNC_DEPTH=1  # Shallow clone for performance
       - GITSYNC_ROOT=/dags
-      - GITSYNC_DEST=airflow
+      - GIT_SYNC_DEST=airflow
     volumes:
       - ./dags:/dags
         
