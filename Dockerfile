@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 ### base
 FROM apache/airflow:2.10.4-python3.12 AS base
 
@@ -19,7 +21,9 @@ RUN pip install --no-deps --no-index -r ./packages/requirements-airflow.txt
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install -r ./requirements.txt
+
+# RUN --mount=type=cache,target=/home/airflow/.cache/pip pip install -r ./requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r ./requirements.txt
 
 
 ### runner
