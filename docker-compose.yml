@@ -8,19 +8,14 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags/airflow/experiments
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags
       - AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC=Admin
     volumes:
       - ./webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
       - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
-      - ./dags:/dags
-      # - type: volume
-      #   source: dags
-      #   target: /dags
-      #   volume:
-      #     nocopy: true
-      #     subpath: airflow/experiments
+      - ./dags/airflow/experiments:/dags/prod
+      - ./dev:/dags/dev
     ports:
       - 8080:8080
     command: standalone
@@ -39,7 +34,7 @@ services:
       - GIT_SYNC_WAIT=60  # Sync interval in seconds
       - GITSYNC_DEPTH=1  # Shallow clone for performance
       - GITSYNC_ROOT=/dags
-      - GIT_SYNC_DEST=airflow
+      - GIT_SYNC_DEST=/dags/airflow
     volumes:
       - ./dags:/dags
         
