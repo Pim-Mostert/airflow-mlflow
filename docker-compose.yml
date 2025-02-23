@@ -8,14 +8,13 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/airflow/experiments
       - AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC=Admin
     volumes:
       - ./webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
       - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
-      - ./dags/airflow/experiments:/dags/prod
-      - ./dev:/dags/dev
+      - ${STORAGE_LOCATION}/dags:/dags
     ports:
       - 8080:8080
     command: standalone
@@ -36,21 +35,21 @@ services:
       - GITSYNC_ROOT=/dags
       - GIT_SYNC_DEST=/dags/airflow
     volumes:
-      - ./dags:/dags
+      - ${STORAGE_LOCATION}/dags:/dags
         
-  # mlflow:
-  #   image: ghcr.io/mlflow/mlflow:v2.20.1
-  #   container_name: mlflow
-  #   volumes:
-  #     - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
-  #     - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
-  #   ports:
-  #     - 9000:9000
-  #   command: >
-  #     mlflow server
-  #     --backend-store-uri sqlite:///mlflow/database/mlflow.db
-  #     --artifacts-destination /mlflow/artifacts
-  #     --serve-artifacts
-  #     --port 9000
-  #     --host 0.0.0.0
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.20.1
+    container_name: mlflow
+    volumes:
+      - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
+      - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
+    ports:
+      - 9000:9000
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow/database/mlflow.db
+      --artifacts-destination /mlflow/artifacts
+      --serve-artifacts
+      --port 9000
+      --host 0.0.0.0
       
