@@ -16,7 +16,7 @@ dag = create_experiment_dag(
             description="PyTorch device",
         ),
         "selected_num_observations": Param(1000, type="integer"),
-        "num_iterations": Param(8, type="integer"),
+        "num_iterations": Param(9, type="integer"),
         "gamma": Param(0.00001, type="number"),
     },
 )
