@@ -1,0 +1,36 @@
+name: Build package and publish
+
+on: 
+  push:
+    branches:
+      - main
+
+env:
+  PYTHON_VERSION: "3.12"
+  AZURE_ARTIFACTS_UPLOAD_URL: "https://pkgs.dev.azure.com/mostertpim/BayesianNetwork/_packaging/BayesianNetwork/pypi/upload/"
+
+jobs:
+  package-and-publish:
+    name: Build and publish
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Build package
+        working-directory: ./packages
+        run: |
+          pip install build
+          python -m build --wheel
+      - name: Publish package
+        working-directory: ./packages
+        env:
+          TWINE_USERNAME: ""
+          TWINE_PASSWORD: ${{ secrets.AZURE_ARTIFACTS_READWRITE_TOKEN }}
+          TWINE_REPOSITORY_URL: ${{ env.AZURE_ARTIFACTS_UPLOAD_URL }}
+        run: |
+          pip install twine
+          python -m twine upload -r ./dist/*

@@ -32,6 +32,7 @@
 - [ ] WARN: SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "AZURE_ARTIFACTS_TOKEN") (line 8) 
   - See: https://docs.docker.com/compose/how-tos/use-secrets/#examples
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
+- [ ] Publish dags_common package
 - [ ] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
