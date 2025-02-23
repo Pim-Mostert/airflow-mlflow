@@ -24,7 +24,7 @@ jobs:
         working-directory: ./packages
         run: |
           pip install build
-          python -m build --wheel
+          python -m build
       - name: Publish package
         working-directory: ./packages
         env:
