@@ -49,7 +49,7 @@ def execute_and_upload(
         for notebook_arg in notebook_args:
             assert (
                 notebook_arg in params
-            ), f"Notebook parameter '{k}' not passed into DAG"
+            ), f"Notebook parameter '{notebook_arg}' not passed into DAG"
 
         notebook_args = parameter_values(notebook_args, **params)
         notebook = replace_definitions(notebook, notebook_args)
