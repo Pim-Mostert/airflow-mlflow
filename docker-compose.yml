@@ -1,9 +1,6 @@
 services:
   airflow:
-    build:  
-      context: .
-      args:
-        - AZURE_ARTIFACTS_TOKEN=${AZURE_ARTIFACTS_TOKEN}
+    image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
     container_name: airflow
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db

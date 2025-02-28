@@ -1,17 +1,5 @@
 # Getting started
 
-## Development
-
-1. Create a virtual environment at `.venv`.
-2. Run:
-   ```
-   python -m pip install --upgrade pip
-   pip install keyring artifacts-keyring
-   ```
-3. Copy `pip.conf` to `.venv`.
-4. Run `pip install -r requirements-dev.txt`.
-5. (optionally) Follow the on-screen instructions to sign in to Azure Artifacts.
-
 ## Setup Airflow and MLflow
 
 1. Copy `.env.template` to `.env` and configure its variables
@@ -31,8 +19,9 @@
 - [x] Remove Airflow login
 - [ ] WARN: SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "AZURE_ARTIFACTS_TOKEN") (line 8) 
   - See: https://docs.docker.com/compose/how-tos/use-secrets/#examples
+- [ ] Add git commit hash to run
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
-- [ ] Publish dags_common package
+- [x] Publish dags_common package
 - [ ] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
