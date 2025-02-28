@@ -22,7 +22,7 @@
 - [ ] Add git commit hash to run
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
 - [x] Publish dags_common package
-- [ ] Separate out experiments repo from airflow/mflow repo
+- [x] Separate out experiments repo from airflow/mflow repo
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
 - [ ] Do not use SequentialExecutor
