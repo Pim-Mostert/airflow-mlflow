@@ -1,14 +1,11 @@
 services:
   airflow:
-    build:  
-      context: .
-      args:
-        - AZURE_ARTIFACTS_TOKEN=${AZURE_ARTIFACTS_TOKEN}
+    image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
     container_name: airflow
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags/airflow/experiments
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
       - AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC=Admin
     volumes:
       - ./webserver_config.py:/opt/airflow/webserver_config.py
@@ -28,12 +25,12 @@ services:
     container_name: git-sync
     user: root
     environment:
-      - GITSYNC_REPO=https://github.com/Pim-Mostert/airflow-mlflow.git
+      - GITSYNC_REPO=https://github.com/Pim-Mostert/BN_experiments.git
       - GIT_SYNC_BRANCH=main
       - GIT_SYNC_WAIT=60  # Sync interval in seconds
       - GITSYNC_DEPTH=1  # Shallow clone for performance
       - GITSYNC_ROOT=/dags
-      - GIT_SYNC_DEST=/dags/airflow
+      - GIT_SYNC_DEST=/dags/bn_experiments
     volumes:
       - ${STORAGE_LOCATION}/dags:/dags
         

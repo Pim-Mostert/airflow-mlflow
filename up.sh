@@ -7,4 +7,4 @@ else
     DETACH="-d"
 fi
 
-docker compose up --build $DETACH
+docker compose up $DETACH

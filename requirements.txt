@@ -1,6 +1,0 @@
-./packages
-torchvision==0.20.1
-matplotlib==3.10.0
-
-# Private Azure Artifacts
-bayesian-network
