@@ -2,9 +2,9 @@
 
 ## Setup Airflow and MLflow
 
-1. Copy `.env.template` to `.env` and configure its variables
-2. Run `chmod +x up.sh` and `chmod +x down.sh`
-3. Run `./up.sh`
+1. Copy `.env.template` to `.env.dev` and `.env.prod` and configure its variables, for the development and production configuration, respectively.
+2. Run `chmod +x up.sh` and `chmod +x down.sh`.
+3. Run `./up.sh dev` (or simlpy `./up.sh`) for dev, or run `./up.sh prod` for prod.
    - Airflow is now available at `http://localhost:8080`
    - MLflow is now available at `http://localhost:9000`
 
@@ -23,6 +23,7 @@
 - [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
 - [x] Publish dags_common package
 - [x] Separate out experiments repo from airflow/mflow repo
+- [x] Dev and prod configuration for airflow/mlflow
 - [ ] Custom runner containers with `bayesian-network` installed
 - [ ] Use Postgres or MySql as database for Airflow
 - [ ] Do not use SequentialExecutor

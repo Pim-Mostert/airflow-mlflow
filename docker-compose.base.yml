@@ -1,39 +1,20 @@
 services:
   airflow:
-    image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
     container_name: airflow
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db
       - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
       - AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC=Admin
     volumes:
       - ./webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
       - ${STORAGE_LOCATION}/airflow/database:/opt/airflow/database
-      - ${STORAGE_LOCATION}/dags:/dags
     ports:
       - 8080:8080
     command: standalone
     mem_limit: ${WORKER_MEM}
     cpu_count: ${WORKER_CPU}
-    depends_on: 
-      - git-sync
 
-  git-sync:
-    image: registry.k8s.io/git-sync/git-sync:v4.4.0
-    container_name: git-sync
-    user: root
-    environment:
-      - GITSYNC_REPO=https://github.com/Pim-Mostert/BN_experiments.git
-      - GIT_SYNC_BRANCH=main
-      - GIT_SYNC_WAIT=60  # Sync interval in seconds
-      - GITSYNC_DEPTH=1  # Shallow clone for performance
-      - GITSYNC_ROOT=/dags
-      - GIT_SYNC_DEST=/dags/bn_experiments
-    volumes:
-      - ${STORAGE_LOCATION}/dags:/dags
-        
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.20.1
     container_name: mlflow
