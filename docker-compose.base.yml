@@ -1,7 +1,5 @@
 services:
   airflow:
-    build:
-      context: .
     container_name: airflow
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/database/airflow.db

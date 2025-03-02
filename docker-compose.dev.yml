@@ -1,5 +1,7 @@
 services:
   airflow:
+    build:
+      context: .
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/dags
     volumes:
