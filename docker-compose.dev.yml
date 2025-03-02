@@ -1,0 +1,7 @@
+services:
+  airflow:
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags
+    volumes:
+      - ./experiments:/dags      
+      - ./packages:/packages

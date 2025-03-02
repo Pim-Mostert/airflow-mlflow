@@ -1,0 +1,23 @@
+services:
+  airflow:
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
+    volumes:
+      - ${STORAGE_LOCATION}/dags:/dags
+    depends_on: 
+      - git-sync
+
+  git-sync:
+    image: registry.k8s.io/git-sync/git-sync:v4.4.0
+    container_name: git-sync
+    user: root
+    environment:
+      - GITSYNC_REPO=https://github.com/Pim-Mostert/BN_experiments.git
+      - GIT_SYNC_BRANCH=main
+      - GIT_SYNC_WAIT=60  # Sync interval in seconds
+      - GITSYNC_DEPTH=1  # Shallow clone for performance
+      - GITSYNC_ROOT=/dags
+      - GIT_SYNC_DEST=/dags/bn_experiments
+    volumes:
+      - ${STORAGE_LOCATION}/dags:/dags
+        
