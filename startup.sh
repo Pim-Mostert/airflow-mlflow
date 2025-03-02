@@ -1,3 +1,4 @@
-pip install -e /home/airflow/packages
+# KIJKEN OF IK DEZE KAN VERPLAATSEN NAAR DE DOCKERFILE, EN DAN DE SOURCE DIR GEWOON OVERWRITEN MET VOLUME MAPPING
+# pip install -e /home/airflow/packages
 
 airflow standalone

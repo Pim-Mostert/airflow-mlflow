@@ -38,19 +38,19 @@ services:
   #   volumes:
   #     - ${STORAGE_LOCATION}/dags:/dags
         
-  mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.20.1
-    container_name: mlflow
-    volumes:
-      - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
-      - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
-    ports:
-      - 9000:9000
-    command: >
-      mlflow server
-      --backend-store-uri sqlite:///mlflow/database/mlflow.db
-      --artifacts-destination /mlflow/artifacts
-      --serve-artifacts
-      --port 9000
-      --host 0.0.0.0
+  # mlflow:
+  #   image: ghcr.io/mlflow/mlflow:v2.20.1
+  #   container_name: mlflow
+  #   volumes:
+  #     - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
+  #     - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
+  #   ports:
+  #     - 9000:9000
+  #   command: >
+  #     mlflow server
+  #     --backend-store-uri sqlite:///mlflow/database/mlflow.db
+  #     --artifacts-destination /mlflow/artifacts
+  #     --serve-artifacts
+  #     --port 9000
+  #     --host 0.0.0.0
       

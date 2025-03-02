@@ -2,8 +2,12 @@ FROM apache/airflow:2.10.4-python3.12
 
 WORKDIR /startup
 
-COPY --chown=airflow:airflow startup.sh .
+ADD --chown=airflow:airflow packages /home/airflow/packages
 
-RUN chmod +x startup.sh
+RUN pip install -e /home/airflow/packages
 
-ENTRYPOINT /startup/startup.sh
+# COPY --chown=airflow:airflow startup.sh .
+
+# RUN chmod +x startup.sh
+
+# ENTRYPOINT /startup/startup.sh
