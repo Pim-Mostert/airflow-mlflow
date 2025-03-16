@@ -19,9 +19,7 @@ from airflow import DAG
 from airflow.models.param import Param
 from airflow.configuration import conf
 
-IK LIJK NU IETS WERKENDS TE HEBBEN DUS DAT IS MOOI
-ECHTER MIEPT MLFLOW DAT HIJ GIT NIET KAN VINDEN TIJDENS EEN RUN
-MISSCHIEN GEWOON GIT INSTALLEREN IN AIRFLOW IMAGE EN DAN WERKT ALLES AUTOMAGIC
+
 @task(task_id="read_git_hash")
 def read_git_hash(file_path: Path):
     with open(file_path, "r") as file:
