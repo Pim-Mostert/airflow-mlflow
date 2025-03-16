@@ -1,11 +1,14 @@
 #!/bin/bash
 
-RUN_ENVIRONMENT=$1
+if [ "$1" == "" ]; then
+    RUN_ENVIRONMENT="dev"
+else
+    RUN_ENVIRONMENT=$1
+fi
 
 echo "Writing RUN_ENVIRONMENT=$RUN_ENVIRONMENT to .run_environment.txt"
 echo "$RUN_ENVIRONMENT" > .run_environment.txt
 
-# Check if the first argument is prod
 if [ "$RUN_ENVIRONMENT" == "prod" ]; then
     docker compose \
         --env-file .env.prod \

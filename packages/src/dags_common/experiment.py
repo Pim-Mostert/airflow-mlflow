@@ -17,6 +17,20 @@ from nbparameterise import (
 )
 from airflow import DAG
 from airflow.models.param import Param
+from airflow.configuration import conf
+
+IK LIJK NU IETS WERKENDS TE HEBBEN DUS DAT IS MOOI
+ECHTER MIEPT MLFLOW DAT HIJ GIT NIET KAN VINDEN TIJDENS EEN RUN
+MISSCHIEN GEWOON GIT INSTALLEREN IN AIRFLOW IMAGE EN DAN WERKT ALLES AUTOMAGIC
+@task(task_id="read_git_hash")
+def read_git_hash(file_path: Path):
+    with open(file_path, "r") as file:
+        git_hash = file.read().strip()
+
+    print(f"Git commit hash: {git_hash}")
+
+    # Push to XCom by returning
+    return git_hash
 
 
 @task(task_id="execute_and_upload")
@@ -28,6 +42,8 @@ def execute_and_upload(
     params = kwargs["params"]
     print(f"Supplied DAG parameters: {params}")
 
+    ti = kwargs["ti"]
+
     mlflow.set_experiment(experiment_id)
 
     run_name = params["run_name"]
@@ -37,6 +53,10 @@ def execute_and_upload(
     with mlflow.start_run(run_name=run_name) as run:
         # Set environment variable to setup run within notebook
         os.environ["MLFLOW_RUN_ID"] = run.info.run_id
+
+        # Set git_hash tag
+        git_hash = ti.xcom_pull(task_ids="read_git_hash")
+        mlflow.set_tag("git_hash", git_hash)
 
         # Read notebook from disk
         notebook = jupytext.read(notebook_path, fmt="py:percent")
@@ -123,9 +143,21 @@ def create_experiment_dag(
         dag_id=experiment_id,
         params=params,
     ) as dag:
-        execute_and_upload(
+        # read_git_hash
+        dags_folder = conf.get("core", "dags_folder")
+        git_hash_file_name = os.environ["GIT_HASH_FILE_NAME"]
+
+        ti_read_git_hash = read_git_hash(
+            Path(dags_folder) / git_hash_file_name
+        )
+
+        # ti_execute_and_upload
+        ti_execute_and_upload = execute_and_upload(
             experiment_id=experiment_id,
             notebook_path=notebook_path,
         )
+
+        # task order
+        ti_read_git_hash >> ti_execute_and_upload
 
     return dag
