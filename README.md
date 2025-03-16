@@ -20,7 +20,7 @@
 - [ ] WARN: SecretsUsedInArgOrEnv: Do not use ARG or ENV instructions for sensitive data (ARG "AZURE_ARTIFACTS_TOKEN") (line 8) 
   - See: https://docs.docker.com/compose/how-tos/use-secrets/#examples
 - [x] Add git commit hash to run
-- [ ] Default run name {datetime.now{}) - and same between Airflow and MLflow
+- [x] Default run name {datetime.now{}) - and same between Airflow and MLflow
 - [x] Publish dags_common package
 - [x] Separate out experiments repo from airflow/mflow repo
 - [x] Dev and prod configuration for airflow/mlflow
