@@ -19,6 +19,9 @@ services:
       - GITSYNC_DEPTH=1  # Shallow clone for performance
       - GITSYNC_ROOT=/dags
       - GIT_SYNC_DEST=/dags/bn_experiments
+      - GIT_SYNC_EXECHOOK_COMMAND='/git_sync/write_git_hash.sh' \
+      - GIT_HASH_FILE_NAME=${GIT_HASH_FILE_NAME}
     volumes:
       - ${STORAGE_LOCATION}/dags:/dags
+      - ./git_sync:/git_sync
         
