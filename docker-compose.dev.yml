@@ -2,6 +2,7 @@ services:
   airflow:
     build:
       context: .
+      dockerfile: Dockerfile.dev
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/dags
     volumes:
