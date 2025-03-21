@@ -4,7 +4,9 @@ services:
     image: postgres:16
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_AIRFLOW_PASSWORD: ${POSTGRES_AIRFLOW_PASSWORD}
     volumes:
+      - ./postgres/init-airflow-db.sh:/docker-entrypoint-initdb.d/init-airflow-db.sh
       - ${STORAGE_LOCATION}/postgres:/var/lib/postgresql/data
       
   airflow:
@@ -12,10 +14,10 @@ services:
     depends_on: 
       - postgres
     environment:
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:${POSTGRES_PASSWORD}@postgres/airflow
-      - MLFLOW_TRACKING_URI=http://mlflow:9000
-      - AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC=Admin
-      - GIT_HASH_FILE_NAME=${GIT_HASH_FILE_NAME}
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_AIRFLOW_PASSWORD}@postgres/airflow
+      MLFLOW_TRACKING_URI: http://mlflow:9000
+      AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC: Admin
+      GIT_HASH_FILE_NAME: ${GIT_HASH_FILE_NAME}
     volumes:
       - ./airflow/webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs

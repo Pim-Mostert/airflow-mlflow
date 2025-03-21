@@ -13,8 +13,8 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4:9.1.0
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: hoi@hoi.nl
+      PGADMIN_DEFAULT_PASSWORD: hoi
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
       PGADMIN_CONFIG_SERVER_MODE: "False"      
     ports:
