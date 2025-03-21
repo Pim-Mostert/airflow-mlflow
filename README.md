@@ -24,6 +24,6 @@
 - [x] Publish dags_common package
 - [x] Separate out experiments repo from airflow/mflow repo
 - [x] Dev and prod configuration for airflow/mlflow
-- [ ] Custom runner containers with `bayesian-network` installed
-- [ ] Use Postgres or MySql as database for Airflow
+- [ ] Dedicated runner containers
+- [x] Use Postgres or MySql as database for Airflow and MLflow
 - [ ] Do not use SequentialExecutor
