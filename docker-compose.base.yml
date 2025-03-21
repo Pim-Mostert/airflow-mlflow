@@ -16,6 +16,7 @@ services:
       - postgres
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_AIRFLOW_PASSWORD}@postgres/airflow
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
       MLFLOW_TRACKING_URI: http://mlflow:9000
       AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC: Admin
       GIT_HASH_FILE_NAME: ${GIT_HASH_FILE_NAME}

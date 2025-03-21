@@ -26,4 +26,4 @@
 - [x] Dev and prod configuration for airflow/mlflow
 - [ ] Dedicated runner containers
 - [x] Use Postgres or MySql as database for Airflow and MLflow
-- [ ] Do not use SequentialExecutor
+- [x] Do not use SequentialExecutor
