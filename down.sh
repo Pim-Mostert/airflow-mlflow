@@ -11,13 +11,17 @@ else
 fi
 
 # Check if RUN_ENVIRONMENT is prod
-if [ "$AIRFLOW_ENVIRONMENT" == "prod" ]; then
+if [ "$RUN_ENVIRONMENT" == "prod" ]; then
+    echo "Taking down production mode..."
+    
     docker compose \
         --env-file .env.prod \
         -f docker-compose.base.yml \
         -f docker-compose.prod.yml \
         down
 else
+    echo "Taking down development mode..."
+
     docker compose \
         --env-file .env.dev \
         -f docker-compose.base.yml \
