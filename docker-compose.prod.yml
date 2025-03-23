@@ -1,11 +1,20 @@
 services:
-  airflow:
+  airflow-webserver:
+    image: apache/airflow:2.10.4-python3.12
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
+    volumes:
+      - ${STORAGE_LOCATION}/dags:/dags
+    depends_on:
+      - git-sync
+    
+  airflow-scheduler:
     image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
     volumes:
       - ${STORAGE_LOCATION}/dags:/dags
-    depends_on: 
+    depends_on:
       - git-sync
 
   git-sync:

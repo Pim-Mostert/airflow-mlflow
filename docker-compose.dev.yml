@@ -1,10 +1,16 @@
 services:
-  airflow:
+  airflow-webserver:
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags
+    volumes:
+      - ./experiments:/dags
+  
+  airflow-scheduler:
     build:
       context: .
       dockerfile: Dockerfile.airflow.dev
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/dags
     volumes:
-      - ./experiments:/dags      
+      - ./experiments:/dags
       - ./packages:/packages
