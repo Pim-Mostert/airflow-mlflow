@@ -1,19 +1,16 @@
+x-airflow-common: &airflow-dev-common
+  build:
+    context: .
+    dockerfile: Dockerfile.airflow.dev
+  environment:
+    - AIRFLOW__CORE__DAGS_FOLDER=/dags
+  volumes:
+    - ./experiments:/dags
+    - ./packages:/packages
+    
 services:
   airflow-webserver:
-    build:
-      context: .
-      dockerfile: Dockerfile.airflow.dev
-    environment:
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags
-    volumes:
-      - ./experiments:/dags      
-
+    <<: *airflow-dev-common
+  
   airflow-scheduler:
-    build:
-      context: .
-      dockerfile: Dockerfile.airflow.dev
-    environment:
-      - AIRFLOW__CORE__DAGS_FOLDER=/dags
-    volumes:
-      - ./experiments:/dags      
-      - ./packages:/packages
+    <<: *airflow-dev-common
