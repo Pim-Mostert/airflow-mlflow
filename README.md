@@ -24,6 +24,6 @@
 - [x] Publish dags_common package
 - [x] Separate out experiments repo from airflow/mflow repo
 - [x] Dev and prod configuration for airflow/mlflow
-- [ ] Dedicated runner containers
+- [x] Dedicated runner containers
 - [x] Use Postgres or MySql as database for Airflow and MLflow
 - [x] Do not use SequentialExecutor

@@ -46,21 +46,21 @@ services:
     mem_limit: ${WORKER_MEM}
     cpu_count: ${WORKER_CPU}
     
-  # mlflow:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.mlflow
-  #   container_name: mlflow
-  #   volumes:
-  #     - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
-  #     - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
-  #   ports:
-  #     - 9000:9000
-  #   command: >
-  #     mlflow server
-  #     --backend-store-uri "postgresql+psycopg2://mlflow:${POSTGRES_MLFLOW_PASSWORD}@postgres/mlflow"
-  #     --artifacts-destination /mlflow/artifacts
-  #     --serve-artifacts
-  #     --port 9000
-  #     --host 0.0.0.0
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlflow
+    container_name: mlflow
+    volumes:
+      - ${STORAGE_LOCATION}/mlflow/database:/mlflow/database
+      - ${STORAGE_LOCATION}/mlflow/artifacts:/mlflow/artifacts
+    ports:
+      - 9000:9000
+    command: >
+      mlflow server
+      --backend-store-uri "postgresql+psycopg2://mlflow:${POSTGRES_MLFLOW_PASSWORD}@postgres/mlflow"
+      --artifacts-destination /mlflow/artifacts
+      --serve-artifacts
+      --port 9000
+      --host 0.0.0.0
       

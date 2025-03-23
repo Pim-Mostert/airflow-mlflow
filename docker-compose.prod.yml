@@ -1,18 +1,21 @@
-x-airflow-common: &airflow-prod-common
-  image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
-  environment:
-    - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
-  volumes:
-    - ${STORAGE_LOCATION}/dags:/dags
-  depends_on:
-    - git-sync
-    
 services:
   airflow-webserver:
-    <<: *airflow-prod-common
+    image: apache/airflow:2.10.4-python3.12
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
+    volumes:
+      - ${STORAGE_LOCATION}/dags:/dags
+    depends_on:
+      - git-sync
     
   airflow-scheduler:
-    <<: *airflow-prod-common
+    image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
+    volumes:
+      - ${STORAGE_LOCATION}/dags:/dags
+    depends_on:
+      - git-sync
 
   git-sync:
     image: registry.k8s.io/git-sync/git-sync:v4.4.0
