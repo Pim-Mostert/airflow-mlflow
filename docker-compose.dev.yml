@@ -7,7 +7,6 @@ services:
       - AIRFLOW__CORE__DAGS_FOLDER=/dags
     volumes:
       - ./experiments:/dags      
-      - ./packages:/packages
 
   airflow-scheduler:
     build:

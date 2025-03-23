@@ -11,15 +11,14 @@ services:
       - ${STORAGE_LOCATION}/postgres:/var/lib/postgresql/data
       
   airflow-webserver:
+    image: apache/airflow:2.10.4-python3.12
     container_name: airflow-webserver
     depends_on: 
       - postgres
     environment:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_AIRFLOW_PASSWORD}@postgres/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
-      MLFLOW_TRACKING_URI: http://mlflow:9000
       AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC: Admin
-      GIT_HASH_FILE_NAME: ${GIT_HASH_FILE_NAME}
     volumes:
       - ./airflow/webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
@@ -27,11 +26,9 @@ services:
       - 8080:8080
     command: >
       bash -c "
-      airflow db init &&
+      airflow db migrate &&
       airflow webserver
       "
-    mem_limit: ${WORKER_MEM}
-    cpu_count: ${WORKER_CPU}
 
   airflow-scheduler:
     container_name: airflow-scheduler
@@ -42,10 +39,8 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${POSTGRES_AIRFLOW_PASSWORD}@postgres/airflow
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       MLFLOW_TRACKING_URI: http://mlflow:9000
-      AIRFLOW__WEBSERVER__AUTH_ROLE_PUBLIC: Admin
       GIT_HASH_FILE_NAME: ${GIT_HASH_FILE_NAME}
     volumes:
-      - ./airflow/webserver_config.py:/opt/airflow/webserver_config.py
       - ${STORAGE_LOCATION}/airflow/logs:/opt/airflow/logs
     command: scheduler
     mem_limit: ${WORKER_MEM}
