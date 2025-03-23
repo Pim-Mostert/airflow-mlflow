@@ -10,6 +10,8 @@ echo "Writing RUN_ENVIRONMENT=$RUN_ENVIRONMENT to .run_environment.txt"
 echo "$RUN_ENVIRONMENT" > .run_environment.txt
 
 if [ "$RUN_ENVIRONMENT" == "prod" ]; then
+    echo "Starting up in production mode..."
+    
     docker compose \
         --env-file .env.prod \
         -f docker-compose.base.yml \
@@ -17,6 +19,8 @@ if [ "$RUN_ENVIRONMENT" == "prod" ]; then
         up \
         --detach
 else
+    echo "Starting up in development mode..."
+    
     docker compose \
         --env-file .env.dev \
         -f docker-compose.base.yml \
