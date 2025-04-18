@@ -68,9 +68,9 @@ def execute_and_upload(
         print(f"Detected notebook arguments: {notebook_args}")
 
         for notebook_arg in notebook_args:
-            assert (
-                notebook_arg in params
-            ), f"Notebook parameter '{notebook_arg}' not passed into DAG"
+            assert notebook_arg in params, (
+                f"Notebook parameter '{notebook_arg}' not passed into DAG"
+            )
 
         notebook_args = parameter_values(notebook_args, **params)
         notebook = replace_definitions(notebook, notebook_args)
@@ -96,10 +96,7 @@ def execute_and_upload(
         try:
             client.execute()
         except CellExecutionError:
-            print(
-                f"Error executing notebook {notebook_path},"
-                f" experiment id: {experiment_id}."
-            )
+            print(f"Error executing notebook {notebook_path}, experiment id: {experiment_id}.")
 
             raise
         finally:
@@ -109,9 +106,7 @@ def execute_and_upload(
 
             # Upload the HTML to MLflow
             with tempfile.TemporaryDirectory() as tempdir:
-                output_path = (Path(tempdir) / notebook_path.stem).with_suffix(
-                    ".html"
-                )
+                output_path = (Path(tempdir) / notebook_path.stem).with_suffix(".html")
 
                 with open(f"{output_path}", "w") as f:
                     f.write(html_body)
@@ -133,9 +128,7 @@ def create_experiment_dag(
     }
 
     # Add parameters if not exist in default parameters
-    params.update(
-        {k: v for k, v in experiment_params.items() if k not in params}
-    )
+    params.update({k: v for k, v in experiment_params.items() if k not in params})
 
     # Create and return the DAG object
     with DAG(
@@ -146,9 +139,7 @@ def create_experiment_dag(
         dags_folder = conf.get("core", "dags_folder")
         git_hash_file_name = os.environ["GIT_HASH_FILE_NAME"]
 
-        ti_read_git_hash = read_git_hash(
-            Path(dags_folder) / git_hash_file_name
-        )
+        ti_read_git_hash = read_git_hash(Path(dags_folder) / git_hash_file_name)
 
         # ti_execute_and_upload
         ti_execute_and_upload = execute_and_upload(
