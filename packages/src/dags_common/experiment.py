@@ -52,6 +52,8 @@ def execute_and_upload(
         run_name = run_id
 
     with mlflow.start_run(run_name=run_name) as run:
+        mlflow.log_params(params)
+
         # Set environment variable to setup run within notebook
         os.environ["MLFLOW_RUN_ID"] = run.info.run_id
 
