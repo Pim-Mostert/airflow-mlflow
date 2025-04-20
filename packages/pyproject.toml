@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,5 +7,7 @@ name = "dags_common"
 dynamic = ["dependencies", "version"]
 
 [tool.setuptools.dynamic]
-version = {attr = "dags_common.__version__"}
 dependencies = {file = ["requirements.txt", "requirements-airflow.txt"]}
+
+[tool.setuptools_scm]
+root = "../"
