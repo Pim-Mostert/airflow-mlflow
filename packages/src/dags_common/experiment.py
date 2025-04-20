@@ -1,5 +1,6 @@
 import os
 import tempfile
+import textwrap
 from typing import Dict
 from airflow.decorators import task
 
@@ -10,6 +11,7 @@ from pathlib import Path
 import jupytext
 from nbclient import NotebookClient
 from nbclient.exceptions import CellExecutionError
+import nbformat
 from nbparameterise.code import extract_parameter_dict
 from nbparameterise import (
     replace_definitions,
@@ -41,7 +43,7 @@ def execute_and_upload(
     print(f"Supplied DAG parameters: {params}")
 
     ti = kwargs["ti"]
-    run_id = kwargs["dag_run"].run_id
+    dag_run_id = kwargs["dag_run"].run_id
 
     mlflow.set_experiment(experiment_id)
 
@@ -49,13 +51,10 @@ def execute_and_upload(
     if not run_name:
         print("No 'run_name' specified. Using Airflow's Run ID.")
 
-        run_name = run_id
+        run_name = dag_run_id
 
     with mlflow.start_run(run_name=run_name) as run:
         mlflow.log_params(params)
-
-        # Set environment variable to setup run within notebook
-        os.environ["MLFLOW_RUN_ID"] = run.info.run_id
 
         # Set git_hash tag
         git_hash = ti.xcom_pull(task_ids="read_git_hash")
@@ -77,7 +76,26 @@ def execute_and_upload(
         notebook_args = parameter_values(notebook_args, **params)
         notebook = replace_definitions(notebook, notebook_args)
 
-        # Define hooks and notebook client
+        # Inject first cell to make MLflow run active
+        injected_code = textwrap.dedent(f"""
+            import mlflow
+            mlflow.start_run(run_id="{run.info.run_id}")
+        """)
+
+        notebook.cells.insert(
+            0,
+            nbformat.from_dict(
+                {
+                    "cell_type": "code",
+                    "execution_count": None,
+                    "metadata": {},
+                    "outputs": [],
+                    "source": injected_code,
+                }
+            ),
+        )
+
+        # Define hooks
         def on_cell_start(cell, cell_index):
             print(f"--- Starting cell #{cell_index}")
 
@@ -88,6 +106,7 @@ def execute_and_upload(
             for output in cell.get("outputs", []):
                 print(output.get("text", ""), end="")
 
+        # Define notebook client
         client = NotebookClient(
             notebook,
             on_cell_start=on_cell_start,
