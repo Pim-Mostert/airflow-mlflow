@@ -1,7 +1,11 @@
+from importlib.metadata import PackageNotFoundError, version
 from .experiment import create_experiment_dag
 
-# Dummy change
-__version__ = "0.0.4"
+try:
+    __version__ = version("bayesian_network")
+except PackageNotFoundError:
+    __version__ = "noinstall"
+
 __all__ = [
     "create_experiment_dag",
 ]
