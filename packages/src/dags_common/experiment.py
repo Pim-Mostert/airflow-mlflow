@@ -76,10 +76,15 @@ def execute_and_upload(
         notebook_args = parameter_values(notebook_args, **params)
         notebook = replace_definitions(notebook, notebook_args)
 
-        # Inject first cell to make MLflow run active
+        # Inject first cell to setup notebook environment
         injected_code = textwrap.dedent(f"""
+            # Make DAG's MLflow run active
             import mlflow
             mlflow.start_run(run_id="{run.info.run_id}")
+            
+            # Set Python working directory to DAGS folder
+            import os
+            os.chdir(os.environ["AIRFLOW__CORE__DAGS_FOLDER"])
         """)
 
         notebook.cells.insert(
