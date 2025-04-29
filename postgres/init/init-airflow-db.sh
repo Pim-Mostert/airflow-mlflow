@@ -6,6 +6,3 @@ psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" <<-EOSQL
     CREATE DATABASE airflow;
     ALTER DATABASE airflow OWNER TO airflow;
 EOSQL
-
-    # GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
-    # GRANT ALL ON SCHEMA public TO airflow;

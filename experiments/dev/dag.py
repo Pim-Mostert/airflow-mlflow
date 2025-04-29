@@ -11,13 +11,15 @@ dag = create_experiment_dag(
     notebook_path,
     experiment_params={
         "name": Param(
-            default="Pim & Klaas",
-            type="string",
+            default=["Pim", "Klaas", "Sjonnie"],
+            type="array",
+            items={"type": "string"},
             description="Your name.",
         ),
         "age": Param(
-            default=77,
-            type="integer",
+            default=[77, 0.8, 101, 30],
+            type="array",
+            items={"type": "number"},
             description="Your age.",
         ),
     },
