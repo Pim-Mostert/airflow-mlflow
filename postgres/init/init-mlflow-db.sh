@@ -7,5 +7,3 @@ psql -v ON_ERROR_STOP=1 --username "postgres" --dbname "postgres" <<-EOSQL
     ALTER DATABASE mlflow OWNER TO mlflow;
 EOSQL
 
-    # GRANT ALL PRIVILEGES ON DATABASE mlflow TO mlflow;
-    # GRANT ALL ON SCHEMA public TO mlflow;

@@ -1,13 +1,22 @@
 #!/bin/bash
 
+set -e
+
 if [ "$1" == "" ]; then
     RUN_ENVIRONMENT="dev"
 else
     RUN_ENVIRONMENT=$1
 fi
 
-echo "Writing RUN_ENVIRONMENT=$RUN_ENVIRONMENT to .run_environment.txt"
-echo "$RUN_ENVIRONMENT" > .run_environment.txt
+RUN_ENVIRONMENT_FILE=".run_environment.txt"
+
+if [ -e "$RUN_ENVIRONMENT_FILE" ]; then
+    echo "Error: $RUN_ENVIRONMENT_FILE already exists. Is Airflow already running?" >&2
+    exit 1
+fi
+
+echo "Writing RUN_ENVIRONMENT=$RUN_ENVIRONMENT to $RUN_ENVIRONMENT_FILE"
+echo "$RUN_ENVIRONMENT" > $RUN_ENVIRONMENT_FILE
 
 if [ "$RUN_ENVIRONMENT" == "prod" ]; then
     echo "Starting up in production mode..."
