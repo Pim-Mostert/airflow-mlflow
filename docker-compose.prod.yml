@@ -12,6 +12,7 @@ services:
     image: ghcr.io/pim-mostert/bn_experiments_airflow:latest
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/dags/bn_experiments/experiments
+      - DAGS_WORKDIR=/dags/bn_experiments
     volumes:
       - ${STORAGE_LOCATION}/dags:/dags
     depends_on:

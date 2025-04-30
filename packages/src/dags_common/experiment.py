@@ -77,6 +77,7 @@ def execute_and_upload(
         notebook = replace_definitions(notebook, notebook_args)
 
         # Inject first cell to setup notebook environment
+        dags_workdir = os.environ["DAGS_WORKDIR"]
         injected_code = textwrap.dedent(f"""
             # Make DAG's MLflow run active
             import mlflow
@@ -84,7 +85,7 @@ def execute_and_upload(
             
             # Set Python working directory to DAGS folder
             import os
-            os.chdir(os.environ["AIRFLOW__CORE__DAGS_FOLDER"])
+            os.chdir("{dags_workdir}")
         """)
 
         notebook.cells.insert(
